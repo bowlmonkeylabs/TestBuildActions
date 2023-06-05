@@ -103,7 +103,6 @@ jobs:
         run: |
           cd Assets/Unversioned
           git annex enableremote cloud-s3
-          git annex enableremote cloud
           echo ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           
       - name: Sync unversioned annex
