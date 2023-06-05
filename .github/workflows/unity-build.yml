@@ -96,8 +96,8 @@ jobs:
         run: |
           cd Assets/Unversioned
           find . -type f | cut -d/ -f2 | sort | uniq -c
-          git annex list "Epic Toon FX/Materials/Basics/glow5_ADD.mat"
           git annex info
+#         git annex list "Epic Toon FX/Materials/Basics/glow5_ADD.mat"
           
       - name: Enable annex special remotes
         run: |
