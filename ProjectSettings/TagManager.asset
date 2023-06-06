@@ -3,32 +3,50 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - CinemachineTarget
+  - Spawn_Ore
+  - Spawn_Enemy_Sentinel
+  - Spawn_Enemy_Zombie
+  - PlayerAlertRadius
+  - Ore
+  - Exit_Barrier
+  - LadderPoint
+  - RopeTop
+  - RopeBottom
+  - Spawn_Enemy_Bat
+  - PlayerPickupTrigger
+  - Spawn_Ore_Barrier
+  - Spawn_Ore_Rare
+  - Spawn_Trap_Spike
+  - Spawn_Trap_Stalactite
+  - Spawn_Trap_Dart
+  - Spawn_Ore_Rare_Start
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Terrain
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Interactable
+  - Player
+  - PlayerAlwaysOnTop
+  - PlayerAlertRadius
+  - Enemy
+  - ThrowableTorch
+  - PlayerNotVisible
+  - Obstacle
+  - ThrowableRope
+  - EnemyProjectile
+  - RoomBounds
+  - OnlyCollideTerrainObstacle
+  - ItemPickupPhysics
+  - EnemyFlying
+  - InteractableNoCollidePlayer
+  - GlobalPostProcessing
+  - EnemyProjectileDeflected
+  - EnemyRoomBounds
   - 
   - 
   - 
