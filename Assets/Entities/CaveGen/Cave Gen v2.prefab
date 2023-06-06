@@ -1,0 +1,353 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5384662947967996462
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5384662947967996459}
+  - component: {fileID: 5384662947967996457}
+  - component: {fileID: 5384662947967996456}
+  - component: {fileID: 709162771335478861}
+  m_Layer: 3
+  m_Name: Mud Renderer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5384662947967996459
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5384662947967996462}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5384662949636187771}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5384662947967996457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5384662947967996462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89c093964aae43a2bb30b403b66848dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _generateOnChange: 1
+  _maxGeneratesPerSecond: 4
+  _lockAfterGenerate: 1
+  _lockInEditMode: 1
+  _requireManualUnlock: 0
+  _mudRenderer: {fileID: 5384662947967996456}
+  _invertNormals: 1
+  _instanceAsPrefabs: 1
+  _enableLogs: 1
+  _caveGenerator: {fileID: 5384662949636187768}
+  _caveGraphRenderParams: {fileID: 11400000, guid: 6ec58bae35629cd408fb088282212513, type: 2}
+--- !u!114 &5384662947967996456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5384662947967996462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1406bb0b613343248bba1c664e68d2b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxVoxelsK: 2025
+  MaxChunks: 64
+  ShowGpuMemoryUsage: 0
+  AutoAdjustBudgetsToHighWaterMarks: 0
+  AutoAdjustBudgetsToHighWaterMarksMarginPercent: 15
+  VoxelDensity: 1
+  ForceEvaluateAllBrushes: 1
+  Enable2dMode: 0
+  SurfaceShift: 0
+  HardwareMode: 0
+  RenderMode: 0
+  MeshingMode: 3
+  RayTracedVoxelMode: 0
+  RayTracedVoxelSizeMultiplier: 1
+  RayTracedVoxelSmoothCubeNormal: 0
+  RayTracedVoxelSphereFullness: 0
+  RayTracedVoxelPaddingMode: 1
+  RayTracedVoxelInternalPaddingDistance: 0
+  RayTracedVoxelSizeFadeDistance: 0
+  ShowAdvancedNormalOptions: 1
+  SmoothNormalBlurRelative: 0.05
+  SmoothNormalBlurAbsolute: 0
+  NormalQuantization: 0
+  Normal2dFade: 0
+  Normal2dStrength: 1
+  EnableAutoSmoothing: 1
+  AutoSmoothingMaxAngle: 28
+  EnableSmoothCorner: 0
+  SmoothCornerSubdivision: 2
+  SmoothCornerNormalBlur: 0.02
+  SmoothCornerFade: 0
+  ShowAdvancedSplatOptions: 0
+  SplatSize: 1
+  SplatSizeJitter: 0
+  SplatNormalShift: 0
+  SplatNormalShiftJitter: 1
+  SplatColorJitter: 0
+  SplatPositionJitter: 0
+  SplatRotationJitter: 0
+  SplatOrientationJitter: 0
+  SplatOriginalNormalBlend: 1
+  SplatJitterNoisiness: 1
+  SplatCameraFacing: 0
+  SplatNormalsMatchCameraFacing: 0
+  SplatShadowsMatchCameraFacing: 0
+  SplatScreenSpaceFlattening: 1
+  SurfaceNetsDualQuadsBlend: 0.4
+  ShowAdvancedGeometryOptions: 1
+  SurfaceNetsHighAccuracyMode: 0
+  DualContouringDualQuadsBlend: 0.2
+  DualContouringRelaxation: 0
+  DualContouringHighAccuracyMode: 0
+  CastShadows: 0
+  ReceiveShadows: 1
+  SharedMaterial: {fileID: 0}
+  m_masterColor: {r: 1, g: 1, b: 1, a: 1}
+  m_masterEmission: {r: 1, g: 1, b: 1, a: 1}
+  m_masterMetallic: 1
+  m_masterSmoothness: 1
+  RenderMaterialMesh: {fileID: 2100000, guid: 461d41af040d87045a49720510d3a3f7, type: 2}
+  RenderMaterialSplats: {fileID: 0}
+  RenderMaterialDecal: {fileID: 0}
+  RenderMaterialRayMarchedSurface: {fileID: 0}
+  RenderMaterialRayTracedVoxels: {fileID: 0}
+  MaxRayMarchSteps: 64
+  RayMarchAccuracy: 0.5
+  RayMarchMaxRayDistance: 1000
+  RayMarchStepSize: 0.5
+  NumLightMarchSteps: 8
+  RayMarchVolumeDensity: 5
+  RayMarchLight: {fileID: 0}
+  RayMarchVolumeAbsorption: 1
+  RayMarchLightAbsorption: 1
+  RayMarchDarknesThreshold: 0.1
+  RayMarchTransmittanceCurve: 0
+  UseRayMarchNoise: 0
+  RayMarchNoiseThreshold: 0.2
+  RayMarchNoiseEdgeFade: 2
+  RayMarchNoiseScrollSpeed: {x: 0, y: 0, z: 0}
+  RayMarchNoiseBaseOctaveSize: {x: 1, y: 1, z: 1}
+  RayMarchNoiseNumOctaves: 2
+  RayMarchNoiseOctaveOffsetFactor: 0.5
+  ClickSelection: 2
+  AlwaysDrawGizmos: 0
+  DrawRawBrushBounds: 0
+  DrawComputeBrushBounds: 0
+  DrawRenderBounds: 0
+  DrawVoxelNodes: 0
+  DrawVoxelNodesDepth: -1
+  DrawVoxelNodesScale: 1
+  m_firstTrackedVersion: 1.4.36
+  m_previousTrackedVersion: 1.4.36
+  m_currentTrackedVersion: 1.4.36
+  MeshGenerationCreateNewObject: 0
+  MeshGenerationCreateCollider: 1
+  MeshGenerationForceConvexCollider: 0
+  MeshGenerationColliderSurfaceShift: 0
+  MeshGenerationCreateRigidBody: 0
+  GenerateColliderMeshAssetByEditor: 0
+  GenerateColliderMeshAssetByEditorName: Mud Renderer Collider Mesh 4294934696
+  MeshGenerationColliderVoxelDensity: 1
+  MeshGenerationRenderableMeshMode: 2
+  MeshGenerationAutoRigging: 0
+  MeshGenerationGenerateTextureUV: 0
+  MeshGenerationGenerateLightMapUV: 0
+  MeshGenerationWeldVertices: 1
+  MeshGenerationLockOnStart: 0
+  GenerateMeshAssetByEditor: 0
+  GenerateMeshAssetByEditorName: Mud Renderer Mesh 4294934696
+  RecursiveLockMeshByEditor: 1
+  RememberLockedMeshMaterialByEditor: 1
+  MeshGenerationLockOnStartByEditor: 0
+  m_lastLockedMeshMaterial: {fileID: 2100000, guid: bd60708c43fe77445bd908877d1cbc6e, type: 2}
+  m_aBrushTransformCache: []
+  m_aNestedRendereTransformCache: []
+  m_isMeshLocked: 0
+  DrawGenerateSdfGizmos: 0
+  GenerateSdfByEditorName: Mud Renderer SDF 4294934696
+  GenerateSdfCenter: {x: 0, y: 0, z: 0}
+  GenerateSdfDimension: {x: 1, y: 1, z: 1}
+  GenerateSdfTextureSize: {x: 64, y: 64, z: 64}
+  UseCutoffVolume: 0
+  CutoffVolumeCenter: {fileID: 0}
+  CutoffVolumeSize: {x: 1, y: 1, z: 1}
+  RenderMaterialMode: 0
+  ComputeMode: 0
+  TimeSliceMode: 2
+  TimeSliceFrames: 3
+  TimeSliceFramesOffset: 0
+  TimeSlicePeriod: 0.05
+  TimeSliceTimeOffset: 0
+  m_addedComponents: []
+--- !u!114 &709162771335478861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5384662947967996462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b53ed7d0319f4b7b9f7ca51fd27ea387, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mudRenderer: {fileID: 5384662947967996456}
+  _separateAfterAddMudbunCollider: 1
+  _undoSeparateAfterMudbunUnlocked: 1
+  _enableLogs: 0
+  _groundDotProductMin: 0
+  _groundLayer: Terrain
+  _wallLayer: Obstacle
+  _groundObjName: Cave_Ground
+  _wallObjName: Cave_Walls
+  _onAfterSeparateMudbunMesh: {fileID: 11400000, guid: a18d30d67256d1b42ad5962f75126745, type: 2}
+  _meshFilter: {fileID: 0}
+  _meshRenderer: {fileID: 0}
+  _meshCollider: {fileID: 0}
+  _groundObj: {fileID: 0}
+  _wallObj: {fileID: 0}
+--- !u!1 &5384662948231364056
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5384662948231364058}
+  - component: {fileID: 5384662948231364059}
+  m_Layer: 0
+  m_Name: Level Object Spawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5384662948231364058
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5384662948231364056}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5384662949636187771}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5384662948231364059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5384662948231364056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 701721f114564a76a89f6e44e1cc345c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _generateOnLockMudBunMesh: 1
+  _mudBunGenerator: {fileID: 5384662947967996457}
+  _generateOnChange: 0
+  _maxGeneratesPerSecond: 1
+  _onAfterGenerateEvent: {fileID: 11400000, guid: 6b14c457b3e8a0446918006e4929ed06, type: 2}
+  _caveGenerator: {fileID: 5384662949636187768}
+  _player: {fileID: 0}
+  _levelObjectSpawnerParams: {fileID: 11400000, guid: e5ddf7d6a91ecf644b6fb463f2cc3e6a, type: 2}
+--- !u!1 &5384662949636187769
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5384662949636187771}
+  - component: {fileID: 5384662949636187768}
+  m_Layer: 0
+  m_Name: Cave Gen v2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5384662949636187771
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5384662949636187769}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 5384662947967996459}
+  - {fileID: 5384662948231364058}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5384662949636187768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5384662949636187769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053806d4d5494dc0830fefb156c65c39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _generateOnChange: 0
+  _generateRandomOnStart: 1
+  _keepEditModeLevel: 0
+  _retryOnFailure: 1
+  _maxRetryDepth: 10
+  _showTraversabilityCheck: 1
+  _enableLogs: 1
+  _caveGenBounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 15, y: 10, z: 15}
+  _overrideBounds: 0
+  _retrySameSeed:
+    UseConstant: 0
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 405d358d90f733e4eb82aa4e6f47a83a, type: 2}
+  _seedDebugReference:
+    UseConstant: 0
+    EnableInstanceOptions: 0
+    InstanceName: 
+    InstancePath: IntermediateProperties
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: c857b0d81cdcf3c46a02132ca1a0cfd4, type: 2}
+  _caveGenParams: {fileID: 11400000, guid: 422f7183a1db541439442b7b906dee8c, type: 2}
+  _caveGraphMudBunRenderer: {fileID: 5384662947967996457}
+  _levelObjectSpawner: {fileID: 5384662948231364059}
