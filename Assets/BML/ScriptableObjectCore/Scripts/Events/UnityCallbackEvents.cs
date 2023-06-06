@@ -59,13 +59,7 @@ namespace BML.ScriptableObjectCore.Scripts.Events
             foreach (var e in UnityEvents)
             {
                 if (e.UnityCallback == UnityCallback.OnAwake)
-                {
-                    if (Mathf.Approximately(0f, e.Delay))
-                        e.unityEvent.Invoke();
-                    else
-                        LeanTween.value(0f, 1f, e.Delay)
-                            .setOnComplete(_ => e.unityEvent.Invoke());
-                }
+                    e.unityEvent.Invoke();
                 else if (e.UnityCallback == UnityCallback.OnUpdate)
                     OnUpdateEvents.Add(e);
                 else if (e.UnityCallback == UnityCallback.OnFixedUpdate)
@@ -95,10 +89,14 @@ namespace BML.ScriptableObjectCore.Scripts.Events
             OnUpdateEvents.ForEach(e =>
             {
                 if (Mathf.Approximately(0f, e.Delay))
+                {
                     e.unityEvent.Invoke();
+                }
                 else
+                {
                     LeanTween.value(0f, 1f, e.Delay)
-                        .setOnComplete(_ => e.unityEvent.Invoke());
+                        .setOnComplete(_ => e?.unityEvent?.Invoke());
+                }
             });
         }
 
@@ -109,10 +107,14 @@ namespace BML.ScriptableObjectCore.Scripts.Events
             OnFixedUpdateEvents.ForEach(e =>
             {
                 if (Mathf.Approximately(0f, e.Delay))
+                {
                     e.unityEvent.Invoke();
+                }
                 else
+                {
                     LeanTween.value(0f, 1f, e.Delay)
-                        .setOnComplete(_ => e.unityEvent.Invoke());
+                        .setOnComplete(_ => e?.unityEvent?.Invoke());
+                }
             });
         }
         
@@ -122,13 +124,17 @@ namespace BML.ScriptableObjectCore.Scripts.Events
         {
             foreach (var e in UnityEvents)
             {
-                if (e.UnityCallback == unityCallback)
+                if (e != null && e.UnityCallback == unityCallback)
                 {
                     if (Mathf.Approximately(0f, e.Delay))
-                        e.unityEvent.Invoke();
+                    {
+                        e.unityEvent?.Invoke();
+                    }
                     else
+                    {
                         LeanTween.value(0f, 1f, e.Delay)
-                            .setOnComplete(_ => e.unityEvent.Invoke());
+                            .setOnComplete(_ => e?.unityEvent?.Invoke());
+                    }
                 }
             }
         }

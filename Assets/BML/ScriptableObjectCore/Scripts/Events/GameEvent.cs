@@ -12,8 +12,6 @@ namespace BML.ScriptableObjectCore.Scripts.Events
     [CreateAssetMenu(fileName = "GameEvent", menuName = "BML/Events/GameEvent", order = 0)]
     public class GameEvent : ScriptableVariableBase
     {
-        [HideInInlineEditors] public bool EnableDebugOnUpdate;
-        
         [TextArea (7, 10)] [HideInInlineEditors] public string Description;
         
         private List<GameEventListener> listeners = 
@@ -47,7 +45,6 @@ namespace BML.ScriptableObjectCore.Scripts.Events
 
         public void Raise()
         {
-            if(EnableDebugOnUpdate) Debug.LogError($"{name} - Raise");
             OnUpdate?.Invoke();
             
             for(int i = listeners.Count -1; i >= 0; i--)

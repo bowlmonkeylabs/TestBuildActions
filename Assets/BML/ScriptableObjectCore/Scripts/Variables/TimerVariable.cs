@@ -3,120 +3,84 @@ using System.Collections;
 using System.Collections.Generic;
 using BML.ScriptableObjectCore.Scripts.CustomAttributes;
 using BML.ScriptableObjectCore.Scripts.Variables.SafeValueReferences;
+using BML.ScriptableObjectCore.Scripts.Variables.ValueReferences;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace BML.ScriptableObjectCore.Scripts.Variables
 {
+    public delegate void OnUpdate_();
+    public delegate void OnFinished_();
+
     [Required]
     [InlineEditor(InlineEditorObjectFieldModes.Foldout)]
     [CreateAssetMenu(fileName = "TimerVariable", menuName = "BML/Variables/TimerVariable", order = 0)]
     public class TimerVariable : ScriptableObject
     {
-        #region Inspector
-        [HideInInlineEditors] public bool EnableDebugOnUpdate;
-        
-        [TextArea (7, 10)] [HideInInlineEditors] public String _description;
-        
         [SerializeField] private SafeFloatValueReference _duration;
 
-        #endregion
-        
-        #region Public properties
-        
         public float Duration
         {
             get => _duration.Value;
             set => _duration.Value = value;
         }
         
-        [ShowInInspector, ReadOnly] public float? RemainingTime => _remainingTime;
-        [ShowInInspector, ReadOnly] public float ElapsedTime => Duration - (_remainingTime ?? Duration);
-        [ShowInInspector, ReadOnly] public bool IsFinished => _isFinished;
-        [ShowInInspector, ReadOnly] public bool IsStopped => _isStopped;
-        [ShowInInspector, ReadOnly] public bool IsStarted => _isStarted;
-
-        #endregion
-
-        #region Timer state
+        [ShowInInspector, NonSerialized, ReadOnly] private float? remainingTime = null;
+        [ShowInInspector, NonSerialized, ReadOnly] private bool isFinished = false;
+        [TextArea (7, 10)] [HideInInlineEditors] public String Description;
         
-        [NonSerialized] private float? _remainingTime = null;
-        [NonSerialized] private bool _isFinished = false;
-        [NonSerialized] private float _startTime = Mathf.NegativeInfinity;
-        [NonSerialized] private float _lastUpdateTime = Mathf.NegativeInfinity;
-        [NonSerialized] private bool _isStopped = true;
-        [NonSerialized] private bool _isStarted = false;
+        public event OnUpdate_ OnUpdate;
+        public event OnFinished_ OnFinished;
 
-        #endregion
+        // public float Duration => duration;
+        public float? RemainingTime => remainingTime;
+        [ShowInInspector, ReadOnly]
+        public float ElapsedTime => Duration - (remainingTime ?? Duration);
+        public bool IsFinished => isFinished;
         
-        #region Public methods
+        [ShowInInspector, ReadOnly]
+        public bool IsStopped => isStopped;
+
+        [ShowInInspector, ReadOnly]
+        public bool IsStarted => isStarted;
+
+        [NonSerialized]
+        private float startTime = Mathf.NegativeInfinity;
+        
+        [NonSerialized]
+        private float lastUpdateTime = Mathf.NegativeInfinity;
+
+        [NonSerialized]
+        private bool isStopped = true;
+
+        [NonSerialized] 
+        private bool isStarted = false;
 
         public void StartTimer()
         {
-            if(EnableDebugOnUpdate) Debug.LogError($"{name} - Start");
-            _isStarted = true;
-            _isStopped = false;
-            _isFinished = false;
-            _startTime = Time.time;
-            _lastUpdateTime = _startTime;
-            _remainingTime = Duration;
-        }
-
-        public void RestartTimer()
-        {
-            if(EnableDebugOnUpdate) Debug.LogError($"{name} - Restart");
-            StartTimer();
+            isStarted = true;
+            isStopped = false;
+            isFinished = false;
+            startTime = Time.time;
+            lastUpdateTime = startTime;
+            remainingTime = Duration;
         }
 
         public void ResetTimer()
         {
-            if(EnableDebugOnUpdate) Debug.LogError($"{name} - Reset");
-            _isStarted = false;
-            _isStopped = true;
-            _isFinished = false;
-            _startTime = Time.time;
-            _lastUpdateTime = _startTime;
-            _remainingTime = Duration;
-            
+            isStarted = false;
+            isStopped = true;
+            isFinished = false;
+            startTime = Time.time;
+            lastUpdateTime = startTime;
+            remainingTime = Duration;
         }
 
         public void StopTimer()
         {
-            if(EnableDebugOnUpdate) Debug.LogError($"{name} - Stop");
-            _isStopped = true;
+            isStopped = true;
         }
-
-        public void UpdateTime(float multiplier = 1f)
-        {
-            if (!_isStopped && !_isFinished)
-            {
-                var updateTime = Time.time;
-                var deltaTime = (updateTime - _lastUpdateTime);
-                _lastUpdateTime = updateTime;
-                
-                _remainingTime -= deltaTime * multiplier;
-                _remainingTime = Mathf.Max(0f, _remainingTime.Value);
-
-                OnUpdate?.Invoke();
-                if (_remainingTime == 0)
-                {
-                    if(EnableDebugOnUpdate) Debug.LogError($"{name} - Finish");
-                    _isFinished = true;
-                    OnFinished?.Invoke();
-                }
-            }
-            
-        }
-        
-        #endregion
-
-        #region Events
-        
-        public delegate void OnUpdate_();
-        public event OnUpdate_ OnUpdate;
-        public delegate void OnFinished_();
-        public event OnFinished_ OnFinished;
 
         public void Subscribe(OnUpdate_ callback)
         {
@@ -138,7 +102,26 @@ namespace BML.ScriptableObjectCore.Scripts.Variables
             this.OnFinished -= callback;
         }
 
-        #endregion
+        public void UpdateTime(float multiplier = 1f)
+        {
+            if (!isStopped && !isFinished)
+            {
+                var updateTime = Time.time;
+                var deltaTime = (updateTime - lastUpdateTime);
+                lastUpdateTime = updateTime;
+                
+                remainingTime -= deltaTime * multiplier;
+                remainingTime = Mathf.Max(0f, remainingTime.Value);
+
+                OnUpdate?.Invoke();
+                if (remainingTime == 0)
+                {
+                    isFinished = true;
+                    OnFinished?.Invoke();
+                }
+            }
+            
+        }
         
     }
 
@@ -147,73 +130,69 @@ namespace BML.ScriptableObjectCore.Scripts.Variables
     [SynchronizedHeader]
     public class TimerReference
     {
-        #region Inspector
-        
         [HorizontalGroup("Split", LabelWidth = .01f, Width = .2f)] [PropertyTooltip("$Tooltip")]
         [BoxGroup("Split/Left", ShowLabel = false)] [LabelText("$LabelText")] [LabelWidth(10f)]
-        [SerializeField] private bool _useConstant = false;
+        [SerializeField] private bool UseConstant = false;
         
-        [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [ShowIf("_useConstant")]
-        [SerializeField] private SafeFloatValueReference _constantDuration;
+        [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [ShowIf("UseConstant")]
+        [SerializeField] private SafeFloatValueReference ConstantDuration;
         
-        [SerializeField] [ShowIf("_useConstant")] [DisableIf("AlwaysTrue")]
-        private float? _constantRemainingTime = null;
-        
-        [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [HideIf("_useConstant")] 
-        [SerializeField] private TimerVariable _variable;
-
-        #endregion
-        
-        public String Tooltip => _variable != null && !_useConstant ? _variable._description : "";
-        public String LabelText => _useConstant ? "" : "?";
-
-        public String Name
-        {
-            get
-            {
-                if (_useConstant) 
-                    return $"<Const>{_constantRemainingTime}";
-                    
-                return (_variable != null) ? _variable.name : "<Missing Timer>";
-            }
-        }
-
-        #region Constant timer state
+        [SerializeField] [ShowIf("UseConstant")] [DisableIf("AlwaysTrue")]
+        private float? ConstantRemainingTime = null;
 
         private bool AlwaysTrue => true;
-        
-        private float constantStartTime = Mathf.NegativeInfinity;
-        private float constantLastUpdateTime = Mathf.NegativeInfinity;
         private bool isConstantStarted = true;
         private bool isConstantStopped = true;
         private bool isConstantFinished = false;
 
-        #endregion
+        public float ElapsedTime
+        {
+            get
+            {
+                if (UseConstant)
+                    return ConstantDuration.Value - (ConstantRemainingTime ?? ConstantDuration.Value);
+                if (Variable != null)
+                    return Variable.ElapsedTime;
+                
+                Debug.LogError("Trying to access elapsed time for timer variable that is not set!");
+                return Mathf.Infinity;
+            }
+        }
 
-        #region Timer state
+        public bool IsStarted => (UseConstant) ? isConstantStarted : Variable.IsStarted;
+        public bool IsStopped => (UseConstant) ? isConstantStopped : Variable.IsStopped;
+
+        [BoxGroup("Split/Right", ShowLabel = false)] [HideLabel] [HideIf("UseConstant")] 
+        [SerializeField] private TimerVariable Variable;
+
+        private float startTime = Mathf.NegativeInfinity;
+        private float lastUpdateTime = Mathf.NegativeInfinity;
+
+        public String Tooltip => Variable != null && !UseConstant ? Variable.Description : "";
+        public String LabelText => UseConstant ? "" : "?";
 
         public float Duration
         {
             get
             {
-                if (_useConstant)
-                    return _constantDuration.Value;
-                if (_variable != null)
-                    return _variable.Duration;
+                if (UseConstant)
+                    return ConstantDuration.Value;
+                if (Variable != null)
+                    return Variable.Duration;
                 
                 Debug.LogError("Trying to access duration for timer variable that is not set!");
                 return Mathf.Infinity;
             }
             set
             {
-                if (_useConstant)
+                if (UseConstant)
                 {
-                    _constantDuration.Value = value;
+                    ConstantDuration.Value = value;
                     return;
                 }
-                if (_variable != null)
+                if (Variable != null)
                 {
-                    _variable.Duration = value;
+                    Variable.Duration = value;
                     return;
                 }
                 
@@ -225,147 +204,109 @@ namespace BML.ScriptableObjectCore.Scripts.Variables
         {
             get
             {
-                if (_useConstant)
-                    return _constantRemainingTime;
-                if (_variable != null)
-                    return _variable.RemainingTime;
+                if (UseConstant)
+                    return ConstantRemainingTime;
+                if (Variable != null)
+                    return Variable.RemainingTime;
                 
                 Debug.LogError("Trying to access remaining time for timer variable that is not set!");
                 return Mathf.Infinity;
             }
         }
         
-        public float ElapsedTime
-        {
-            get
-            {
-                if (_useConstant)
-                    return _constantDuration.Value - (_constantRemainingTime ?? _constantDuration.Value);
-                if (_variable != null)
-                    return _variable.ElapsedTime;
-                
-                Debug.LogError("Trying to access elapsed time for timer variable that is not set!");
-                return Mathf.Infinity;
-            }
-        }
-        
-        public bool IsStarted => (_useConstant) ? isConstantStarted : _variable.IsStarted;
-        
-        public bool IsStopped => (_useConstant) ? isConstantStopped : _variable.IsStopped;
-        
         public bool IsFinished
         {
             get
             {
-                if (_useConstant)
+                if (UseConstant)
                     return isConstantFinished;
-                if (_variable != null)
-                    return _variable.IsFinished;
+                if (Variable != null)
+                    return Variable.IsFinished;
                 
                 Debug.LogError("Trying to access IsFinished for timer variable that is not set!");
                 return false;
             }
         } 
 
-        #endregion
 
-        #region Public methods
+        public String Name
+        {
+            get
+            {
+                if (UseConstant) 
+                    return $"<Const>{ConstantRemainingTime}";
+                    
+                return (Variable != null) ? Variable.name : "<Missing Timer>";
+            }
+        }
+
 
         public void RestartTimer()
         {
-            if (_useConstant)
-            {
-                isConstantStarted = true;
-                isConstantStopped = false;
-                isConstantFinished = false;
-                constantStartTime = Time.time;
-                constantLastUpdateTime = constantStartTime;
-                _constantRemainingTime = Duration;
-            }
-            else
-            {
-                _variable?.RestartTimer();
-            }
+            Variable?.StartTimer();
+            isConstantStarted = true;
+            isConstantStopped = false;
+            isConstantFinished = false;
+            startTime = Time.time;
+            lastUpdateTime = startTime;
+            ConstantRemainingTime = Duration;
         }
 
         public void ResetTimer()
         {
-            if (_useConstant)
-            {
-                isConstantStarted = false;
-                isConstantStopped = true;
-                isConstantFinished = false;
-                constantStartTime = Time.time;
-                constantLastUpdateTime = constantStartTime;
-                _constantRemainingTime = Duration;
-            }
-            else
-            {
-                _variable?.ResetTimer();
-            }
+            Variable?.ResetTimer();
+            isConstantStarted = false;
+            isConstantStopped = true;
+            isConstantFinished = false;
+            startTime = Time.time;
+            lastUpdateTime = startTime;
+            ConstantRemainingTime = Duration;
         }
 
         public void StopTimer()
         {
-            if (_useConstant)
-            {
-                isConstantStopped = true;
-            }
-            else
-            {
-                _variable?.StopTimer();
-            }
+            Variable?.StopTimer();
+            isConstantStopped = true;
         }
 
         public void UpdateTime(float multiplier = 1f)
         {
-            if (_useConstant)
-            {
-                var updateTime = Time.time;
-                var deltaTime = (updateTime - constantLastUpdateTime);
-                constantLastUpdateTime = updateTime;
+            Variable?.UpdateTime(multiplier);
 
-                if (!isConstantStopped && !isConstantFinished)
-                {
-                    _constantRemainingTime -= deltaTime * multiplier;
-                    _constantRemainingTime = Mathf.Max(0f, _constantRemainingTime.Value);
+            var updateTime = Time.time;
+            var deltaTime = (updateTime - lastUpdateTime);
+            lastUpdateTime = updateTime;
+
+            if (!isConstantStopped && !isConstantFinished)
+            {
+                ConstantRemainingTime -= deltaTime * multiplier;
+                ConstantRemainingTime = Mathf.Max(0f, ConstantRemainingTime.Value);
                 
-                    if (_constantRemainingTime == 0)
-                    {
-                        isConstantFinished = true;
-                    }
+                if (ConstantRemainingTime == 0)
+                {
+                    isConstantFinished = true;
                 }
             }
-            else
-            {
-                _variable?.UpdateTime(multiplier);
-            }
-        }
-
-        #endregion
-
-        #region Events
-
-        public void Subscribe(TimerVariable.OnUpdate_ callback)
-        {
-            _variable?.Subscribe(callback);
-        }
-
-        public void Unsubscribe(TimerVariable.OnUpdate_ callback)
-        {
-            _variable?.Unsubscribe(callback);
         }
         
-        public void SubscribeFinished(TimerVariable.OnFinished_ callback)
+        public void Subscribe(OnUpdate_ callback)
         {
-            _variable?.SubscribeFinished(callback);
+            Variable?.Subscribe(callback);
         }
 
-        public void UnsubscribeFinished(TimerVariable.OnFinished_ callback)
+        public void Unsubscribe(OnUpdate_ callback)
         {
-            _variable?.UnsubscribeFinished(callback);
+            Variable?.Unsubscribe(callback);
+        }
+        
+        public void SubscribeFinished(OnFinished_ callback)
+        {
+            Variable?.SubscribeFinished(callback);
         }
 
-        #endregion
+        public void UnsubscribeFinished(OnFinished_ callback)
+        {
+            Variable?.UnsubscribeFinished(callback);
+        }
     }
 }

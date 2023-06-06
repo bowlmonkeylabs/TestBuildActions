@@ -21,6 +21,15 @@ namespace BML.ScriptableObjectCore.Scripts.Variables.SafeValueReferences
         
         public String Tooltip => !UseConstant ? this.Description : "";
         
+        // [VerticalGroup("Top")]
+        // [HorizontalGroup("Top/Split", LabelWidth = 0.001f)]
+        // [HorizontalGroup("Top/Split/Left", LabelWidth = .01f)]
+        // [BoxGroup("Top/Split/Left/Left", ShowLabel = false)]
+        // [PropertyTooltip("$Tooltip")]
+        // [LabelText("C")]
+        // [LabelWidth(10f)]
+        // [SerializeField]
+        // protected bool UseConstant = false;
         protected bool UseConstant => ReferenceTypeSelector == IntReferenceTypes.Constant;
         
         public enum IntReferenceTypes {
@@ -41,10 +50,62 @@ namespace BML.ScriptableObjectCore.Scripts.Variables.SafeValueReferences
         [HorizontalGroup("Top/Split/Left", LabelWidth = .01f)]
         [BoxGroup("Top/Split/Left/Left", ShowLabel = false)]
         [PropertyTooltip("$Tooltip")]
+        // [LabelText("T")] [LabelWidth(10f)]
         [HideLabel]
         [SerializeField]
         protected IntReferenceTypes ReferenceTypeSelector;
         
+        // [HorizontalGroup("Top/Split/Left/Right", LabelWidth = .01f)]
+        // [BoxGroup("Top/Split/Left/Right/Right", ShowLabel = false)]
+        // [PropertyTooltip("$Tooltip")]
+        // [LabelText("I")]
+        // [LabelWidth(10f)]
+        // [OnValueChanged("ResetInstanceOptions")]
+        // [ShowIf("@!UseConstant")]
+        // [SerializeField]
+        // protected bool EnableInstanceOptions = false;
+        //
+        // [VerticalGroup("Middle")]
+        // [VerticalGroup("Middle/Box/Top")]
+        // [LabelText("Name")]
+        // [LabelWidth(40f)]
+        // [ShowIf("InstanceNotConstant")]
+        // [SerializeField] 
+        // protected String InstanceName = "{I} ";
+        //
+        // [VerticalGroup("Middle/Box/Middle")]
+        // [LabelText("Folder")]
+        // [LabelWidth(40f)]
+        // [FolderPath(ParentFolder = "Assets/MyAssets/ScriptableObjects/", RequireExistingPath = true)]
+        // [ShowIf("InstanceNotConstant")]
+        // [SerializeField] 
+        // protected String InstancePath = "IntermediateProperties";
+
+        // [ValueDropdown("GetTypes")]
+        // [BoxGroup("Middle/Box", ShowLabel = false)]
+        // [VerticalGroup("Middle/Box/Middle2")]
+        // [LabelText("Type")]
+        // [LabelWidth(40f)]
+        // [ShowIf("InstanceNotConstant")]
+        // [SerializeField] 
+        // protected Type InstanceType
+        // {
+        //     get
+        //     {
+        //         switch (ReferenceTypeSelector)
+        //         {
+        //             case FloatReferenceTypes.FloatVariable:
+        //                 return typeof(FloatVariable);
+        //             case FloatReferenceTypes.IntVariable:
+        //                 return typeof(IntVariable);
+        //             case FloatReferenceTypes.EvaluateCurveVariable:
+        //                 return typeof(EvaluateCurveVariable);
+        //             default:
+        //                 return null;
+        //         }
+        //     }
+        // }
+
         [HorizontalGroup("Top/Split", LabelWidth = 0.001f, Width = .7f)]
         [BoxGroup("Top/Split/Right", ShowLabel = false)]
         [HideLabel]
@@ -54,6 +115,19 @@ namespace BML.ScriptableObjectCore.Scripts.Variables.SafeValueReferences
         
         
         #region Reference values
+        
+        // public enum FloatReferenceTypes {
+        //     None,
+        //     FloatVariable,
+        //     IntVariable,
+        //     EvaluateCurveVariable,
+        // }
+        //
+        // [BoxGroup("Top/Split/Right", ShowLabel = false)]
+        // [HideLabel]
+        // [HideIf("UseConstant")]
+        // [SerializeField]
+        // protected FloatReferenceTypes ReferenceTypeSelector;
 
         private bool _showFloatVariable => ReferenceTypeSelector == IntReferenceTypes.FloatVariable;
         [BoxGroup("Top/Split/Right", ShowLabel = false)]
@@ -67,7 +141,6 @@ namespace BML.ScriptableObjectCore.Scripts.Variables.SafeValueReferences
         [ShowIf("@!UseConstant && _showFloatVariable")]
         [SerializeField]
         protected IntRoundingBehavior RoundingBehavior_FloatVariable;
-        
         
         private bool _showIntVariable => ReferenceTypeSelector == IntReferenceTypes.IntVariable;
         [BoxGroup("Top/Split/Right", ShowLabel = false)]
@@ -88,8 +161,10 @@ namespace BML.ScriptableObjectCore.Scripts.Variables.SafeValueReferences
         
         
         
-        
         #endregion
+
+        
+        // protected bool InstanceNotConstant => (!UseConstant && EnableInstanceOptions);
         
         #endregion
         
@@ -222,6 +297,33 @@ namespace BML.ScriptableObjectCore.Scripts.Variables.SafeValueReferences
                     break;
             }
         }
+
+        // [PropertyTooltip("Create an Instance SO")]
+        // [VerticalGroup("Middle/Box/Bottom")]
+        // [LabelWidth(.01f)]
+        // [GUIColor(.85f, 1f, .9f)]
+        // [ShowIf("InstanceNotConstant")]
+        // [Button("Create Instance", ButtonSizes.Small)]
+        // public void CreateInstance()
+        // {
+        //     switch ()
+        //     {}
+        //     ScriptableObject tempScriptableObj = Convert.ChangeType(ScriptableObject.CreateInstance(InstanceType), InstanceType) as ScriptableObject;
+        //     String fullPath = $"Assets/MyAssets/ScriptableObjects/{InstancePath}/";
+        //
+        //     //Try saving scriptable object to desired path
+        //     if (tempScriptableObj.Save(fullPath, InstanceName))
+        //     {
+        //         ReferenceValue = tempScriptableObj;
+        //         EnableInstanceOptions = false;
+        //     }
+        // }
+        //
+        // private void ResetInstanceOptions()
+        // {
+        //     InstanceName = "{I} ";
+        //     InstancePath = "IntermediateProperties";
+        // }
 
         #endregion
     }

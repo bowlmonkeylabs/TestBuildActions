@@ -13,8 +13,6 @@ namespace BML.ScriptableObjectCore.Scripts.Events
     [CreateAssetMenu(fileName = "DynamicGameEvent", menuName = "BML/Events/DynamicGameEvent", order = 0)]
     public class DynamicGameEvent : ScriptableVariableBase
     {
-        [HideInInlineEditors] public bool EnableDebugOnUpdate;
-        
         [TextArea (7, 10)] [HideInInlineEditors] public String Description;
         public String Name => name;
 
@@ -49,11 +47,21 @@ namespace BML.ScriptableObjectCore.Scripts.Events
         { listeners.Remove(listener); }
 
         #endregion
-    
-        
+
+        public void Raise(float obj) {
+            this.Raise((object) obj);
+        }
+
+        public void Raise(string obj) {
+            this.Raise((object) obj);
+        }
+
+        public void Raise(int obj) {
+            this.Raise((object) obj);
+        }
+
         public void Raise(System.Object obj)
         {
-            if(EnableDebugOnUpdate) Debug.LogError($"{name} - Raise");
             OnUpdate?.Invoke(previous, obj);
         
             //Broadcast to monobehavior listeners
